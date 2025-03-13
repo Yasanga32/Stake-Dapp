@@ -1,0 +1,119 @@
+.container-2{
+  background-color: #000000;
+}
+
+.header-1{
+  color: #ddd;
+}
+
+/* Wallet Connect Button */
+.wallet {
+  background-color: #00ff00; /* Green background */
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+  width: 250px;
+  margin: 20px auto;
+  display: block;
+}
+
+.wallet:hover {
+  background-color: #00cc00; /* Darker green on hover */
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+}
+
+.wallet:active {
+  background-color: #009900; /* Even darker green on click */
+  transform: scale(1);
+  box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3);
+}
+
+/* Style for connected wallet info */
+.wallet-1 {
+  font-size: 18px;
+  color: #00ff00;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+  background-color: #000000;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+
+.stats {
+  background-color: #006b00;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.your-stats{
+  text-align: center;
+  font-size: 30px;
+  color: #ff0000;
+}
+
+
+
+.stats h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.stats .stake {
+  padding: 10px;
+  background-color: #333;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.stats p {
+  font-size: 12px;
+  color: #ddd;
+}
+
+.stats span {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.withdraw-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5px;
+}
+
+.withdrawn {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.withdraw-btn {
+  width: 100%;
+  background-color: #00ff00;
+  color: black;
+  font-weight: bold;
+  padding: 8px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.withdraw-btn:hover {
+  background-color: #00cc00;
+}
