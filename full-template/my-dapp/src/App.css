@@ -1,14 +1,16 @@
 .container-2{
   background-color: #000000;
+ 
 }
 
 .header-1{
   color: #ddd;
+  padding-left: 20px;
 }
 
-/* Wallet Connect Button */
+
 .wallet {
-  background-color: #00ff00; /* Green background */
+  background-color: #00ff00; 
   color: black;
   font-weight: bold;
   font-size: 18px;
@@ -24,18 +26,18 @@
 }
 
 .wallet:hover {
-  background-color: #00cc00; /* Darker green on hover */
+  background-color: #00cc00; 
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
 }
 
 .wallet:active {
-  background-color: #009900; /* Even darker green on click */
+  background-color: #009900; 
   transform: scale(1);
   box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3);
 }
 
-/* Style for connected wallet info */
+
 .wallet-1 {
   font-size: 18px;
   color: #00ff00;
@@ -49,12 +51,12 @@
 
 
 .stats {
-  background-color: #006b00;
+  background-color: #038703;
   padding: 15px;
   margin-top: 20px;
   border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
+  width: 100%; 
+  max-width: 800px; 
   margin-left: auto;
   margin-right: auto;
 }
@@ -62,7 +64,7 @@
 .your-stats{
   text-align: center;
   font-size: 30px;
-  color: #ff0000;
+  color: #fbfbfb;
 }
 
 
