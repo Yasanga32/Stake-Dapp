@@ -1,86 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { ethers } from "ethers"; // ethers v6 import
-import { BrowserProvider } from "ethers/providers"; // Correct import for v6
-import "./WalletConnect.css";
-import { stakingABI, erc20ABI } from "./Abi/Abi";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import { stakingABI, erc20ABI } from "./Components/Abi/Abi";
+import ApproveButton from "./Components/ApproveButton";
 
-function WalletConnect({ setWalletAddress, setStakingContract, setErc20Contract }) {  
-    const [walletAddress, setWalletAddressInternal] = useState("");
-    const [ownerAddress, setOwnerAddress] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(false); // Added loading state
+const stakingContractAddress = "0x4A5f9E75aaEe682bd11588aDe4F38a7d59C251E2";
+const erc20TokenAddress = "0x78Fc3C79f48e866a08537f00C742510e8044eecB";
 
-    const stakingContractAddress = "0x4A5f9E75aaEe682bd11588aDe4F38a7d59C251E2";
-    const erc20ContractAddress = "0x78Fc3C79f48e866a08537f00C742510e8044eecB";
+export default function StakingApp() {
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [stakingContract, setStakingContract] = useState(null);
+  const [erc20Contract, setERC20Contract] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [amount, setAmount] = useState("");
+  const [lockPeriod, setLockPeriod] = useState(30);
+  const [isApproved, setIsApproved] = useState(false);
 
-    const connectWallet = async () => {
-        if (!window.ethereum) {
-            alert("Please install MetaMask");
-            return;
-        }
+  useEffect(() => {
+    if (window.ethereum) {
+      const web3Provider = new ethers.BrowserProvider(window.ethereum);
+      setProvider(web3Provider);
+    }
+  }, []);
 
-        try {
-            setLoading(true);  // Show loading indicator
+  const connectWallet = async () => {
+    if (!provider) return alert("Please install MetaMask");
 
-            const provider = new BrowserProvider(window.ethereum); // Use BrowserProvider for v6
-            const accounts = await provider.send("eth_requestAccounts", []);
-            const address = accounts[0];
-            setWalletAddressInternal(address);  // Set local state
-            setWalletAddress(address);  // Pass to parent component
+    const accounts = await provider.send("eth_requestAccounts", []);
+    const web3Signer = await provider.getSigner();
 
-            // Continue with contract creation...
-            const stakingContractInstance = new ethers.Contract(
-                stakingContractAddress,
-                stakingABI,
-                provider
-            );
-            setStakingContract(stakingContractInstance);  // Pass staking contract to parent
+    setSigner(web3Signer);
+    setAccount(accounts[0]);
 
-            const erc20ContractInstance = new ethers.Contract(
-                erc20ContractAddress,
-                erc20ABI,
-                provider
-            );
-            setErc20Contract(erc20ContractInstance);  // Pass ERC20 contract to parent
+    setStakingContract(new ethers.Contract(stakingContractAddress, stakingABI, web3Signer));
+    setERC20Contract(new ethers.Contract(erc20TokenAddress, erc20ABI, web3Signer));
+  };
 
-            console.log("Staking Contract:", stakingContractInstance);
-            console.log("ERC20 Contract:", erc20ContractInstance);
+  const stakeTokens = async () => {
+    if (!stakingContract || !signer) return alert("Connect wallet first");
+    if (!isApproved) return alert("You must approve tokens first!");
 
-            await fetchOwner(stakingContractInstance);
-        } catch (error) {
-            console.error("Error connecting wallet:", error);
-            setErrorMessage(error.message);
-            alert(`Error: ${error.message}`);
-        } finally {
-            setLoading(false); // Hide loading indicator after connection
-        }
-    };
+    try {
+      const tx = await stakingContract.stake(ethers.parseUnits(amount, 18), lockPeriod);
+      await tx.wait();
+      alert("Staked successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Staking failed");
+    }
+  };
 
-    const fetchOwner = async (stakingContractInstance) => {
-        try {
-            if (!stakingContractInstance) {
-                throw new Error("Staking contract instance is not initialized.");
-            }
+  return (
+    <div>
+      <h1>ERC20 Staking DApp</h1>
+      {!account ? (
+        <button onClick={connectWallet}>Connect Wallet</button>
+      ) : (
+        <div>
+          <p>Connected: {account}</p>
+          <input
+            type="text"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <select onChange={(e) => setLockPeriod(Number(e.target.value))}>
+            <option value={30}>30 Days</option>
+            <option value={60}>60 Days</option>
+            <option value={90}>90 Days</option>
+          </select>
 
-            const owner = await stakingContractInstance.owner();
-            setOwnerAddress(owner);
-        } catch (error) {
-            console.error("Error fetching owner:", error);
-            setErrorMessage(error.message);
-        }
-    };
+          {/* Approve Button */}
+          <ApproveButton
+            erc20Contract={erc20Contract}
+            stakingContractAddress={stakingContractAddress}
+            amount={amount}
+            onApproval={setIsApproved}
+          />
 
-    return (
-        <div className="wallet-connect">
-            {loading ? (
-                <p>Loading...</p>
-            ) : walletAddress ? (
-                <p>Connected: {walletAddress}</p>
-            ) : (
-                <button onClick={connectWallet}>Connect Wallet</button>
-            )}
+          {/* Stake Button (Disabled until approved) */}
+          <button onClick={stakeTokens} disabled={!isApproved}>
+            Stake
+          </button>
         </div>
-    );
+      )}
+    </div>
+  );
 }
-
-export default WalletConnect;

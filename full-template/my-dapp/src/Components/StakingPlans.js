@@ -11,12 +11,11 @@ const StakingPlans = ({ erc20Contract, stakingContractAddress, setLockPeriod, se
   const [isApproved, setIsApproved] = useState(false);
 
   const plans = [
-    { id: 1, name: "Plan 1 (30 Days)", dailyRate: "2.8%", duration: 30 },
-    { id: 2, name: "Plan 2 (60 Days)", dailyRate: "3.2%", duration: 60 },
-    { id: 3, name: "Plan 3 (90 Days)", dailyRate: "3.6%", duration: 90 },
+    { id: 1, name: "Plan 1 (30 Days)", rewardRate: "7%", duration: 30 },
+    { id: 2, name: "Plan 2 (60 Days)", rewardRate: "9%", duration: 60 },
+    { id: 3, name: "Plan 3 (90 Days)", rewardRate: "12%", duration: 90 },
   ];
 
-  
   const approveTokens = async (amount) => {
     if (!erc20Contract || !amount) return alert("Enter an amount and connect wallet first");
 
@@ -50,7 +49,7 @@ const StakingPlans = ({ erc20Contract, stakingContractAddress, setLockPeriod, se
     }
     // Proceed with staking logic here (you need to implement staking logic)
     await stakeTokens(); // Call the parent's stakeTokens function to process staking
-    alert(`Staked ${amountForPlan} USDT for ${lockPeriod} days`);
+    alert(`Staked ${amountForPlan} USDT for ${lockPeriod} days with ${plans.find(plan => plan.duration === lockPeriod).rewardRate} reward rate`);
   };
 
   return (
@@ -64,7 +63,7 @@ const StakingPlans = ({ erc20Contract, stakingContractAddress, setLockPeriod, se
             onClick={() => setLockPeriod(plan.duration)}
           >
             <h3>{plan.name}</h3>
-            <p>{plan.dailyRate} / Daily | {plan.duration} Days</p>
+            <p>Reward Rate: {plan.rewardRate} | Duration: {plan.duration} Days</p>
             <input
               type="number"
               placeholder="Enter Amount"
@@ -72,13 +71,10 @@ const StakingPlans = ({ erc20Contract, stakingContractAddress, setLockPeriod, se
               value={amounts[plan.duration]}
               onChange={(e) => handleAmountChange(e, plan.duration)} // Pass plan duration
             />
-
-            
             <button className="stake-btn" onClick={() => approveTokens(amounts[plan.duration])} disabled={isApproved}>
               {isApproved ? "Approved" : "Approve Tokens"}
             </button>
 
-           
             <button className="stake-btn" onClick={() => stakeTokensForPlan(plan.duration)} disabled={!isApproved}>
               STAKE USDT
             </button>

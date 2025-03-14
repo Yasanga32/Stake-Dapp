@@ -87,9 +87,9 @@ export default function StakingApp() {
   return (
     <div className="container-2">
       <h1 className="header-1">ERC20 Staking DApp</h1>
-      {!account ? (
+      
         <button className="wallet" onClick={connectWallet}>Connect Wallet</button>
-      ) : (
+     
         <div>
           <p className="wallet-1">Connected: {account}</p>
           <StakingPlans
@@ -119,7 +119,7 @@ export default function StakingApp() {
             ))}
           </div>
         </div>
-      )}
+      )
     </div>
   );
 }
