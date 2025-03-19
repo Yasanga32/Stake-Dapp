@@ -1,6 +1,6 @@
-/* General Styles */
+
 .container {
-  /* background-color: #000; */
+  
   color: white;
   height: 100%;
   display: flex;
@@ -11,16 +11,15 @@
   margin: 0;
 }
 
-/* Title */
 .title {
 
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 30px;
-  font-family: 'Poppins', sans-serif; /* Apply the stylish Poppins font */
+  font-family: 'Poppins', sans-serif; 
 }
 
-/* Plans Section */
+
 .plans {
   display: flex;
   justify-content: center;
@@ -74,11 +73,10 @@
   background-color: #00cc00;
 }
 
-/* My Stats Section */
 .stats {
   background-color: #004d00;
   padding: 20px;
-  margin-top: 20px; /* Reduced margin */
+  margin-top: 20px; 
   border-radius: 10px;
   width: 90%;
   max-width: 600px;

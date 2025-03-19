@@ -10,10 +10,14 @@ body {
 
 
 .container-2 {
-  background-color: rgba(0, 0, 0, 0.6); /* A slight transparent black background to overlay on the image */
-  height: 100%;
-  padding: 20px; /* Add some padding for spacing */
+  min-height: 100vh; /* Ensure it takes the full height of the viewport */
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* A slight transparent black background */
+  padding: 20px; /* Add padding for spacing */
+  box-sizing: border-box; /* Ensure padding does not affect width */
+  position: relative; /* Ensure absolute positioning works inside */
 }
+
 
 
 .header-1 {
@@ -21,11 +25,10 @@ body {
   padding-left: 20px;
   margin-top: 10px;
   font-size: 32px; /* Bigger text */
-  font-weight: bold; /* Make the text bold */
-  letter-spacing: 1px; /* Add space between letters */
-  text-transform: uppercase; /* Make the text all uppercase */
-  text-shadow: 2px 2px 5px rgba(0, 255, 0, 0.5); /* Add shadow for depth */
-  padding-bottom: 10px; /* Space below the text */
+  font-weight: bold;
+  background: linear-gradient(90deg, #00ff99, #06be06, #007a4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   transition: all 0.3s ease; /* Smooth transition for hover effects */
   
 }
